@@ -1,1 +1,63 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101010">
+<title>The Fast Cobra Downloader</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:25px 15px;background:#181818;border-bottom:2px solid #dba928}
+.logo{font-size:32px;font-weight:900;color:#ffc83d}
+.subtitle{color:#bbb;margin-top:7px}
+main{max-width:500px;margin:30px auto;padding:20px}
+.card{background:#1c1c1c;padding:22px;border:1px solid #40351c;border-radius:20px}
+h1{text-align:center;font-size:25px}
+p{text-align:center;color:#ccc;line-height:1.6}
+input,select,button{width:100%;padding:15px;margin-top:13px;border-radius:10px;font-size:16px}
+input,select{background:#101010;color:white;border:1px solid #555}
+button{background:#e6b52d;color:#111;font-weight:bold;border:0;cursor:pointer}
+.note{font-size:13px;color:#aaa}
+footer{text-align:center;padding:25px;color:#888;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🐍 THE FAST COBRA</div>
+<div class="subtitle">VIDEO DOWNLOADER</div>
+</header>
+<main>
+<div class="card">
+<h1>Download Your Media</h1>
+<p>Paste a supported video link to get started.</p>
+<form id="downloadForm">
+<input id="videoUrl" type="url" placeholder="Paste video URL here..." required>
+<select id="quality">
+<option value="best">Best available quality</option>
+<option value="1080">1080p Full HD</option>
+<option value="720">720p HD</option>
+<option value="480">480p</option>
+<option value="360">360p</option>
+</select>
+<button type="submit">GET VIDEO</button>
+</form>
+<p id="message" class="note">Download options require a working media backend.</p>
+</div>
+</main>
+<footer>© 2026 The Fast Cobra Downloader</footer>
+<script>
+document.getElementById("downloadForm").addEventListener("submit",function(e){
+e.preventDefault();
+const url=document.getElementById("videoUrl").value.trim();
+if(!/^https?:\/\//i.test(url)){
+document.getElementById("message").textContent="Please enter a valid video link.";
+return;
+}
+document.getElementById("message").textContent="Home page ready. Actual downloading will be enabled after the backend is connected.";
+});
+</script>
+</body>
+</html>
+
