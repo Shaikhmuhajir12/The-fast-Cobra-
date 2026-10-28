@@ -3,176 +3,212 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b10">
-<meta name="description" content="The Fast Cobra Downloader">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
 <title>The Fast Cobra Downloader</title>
-
 <style>
+:root{--gold:#f5c542;--bg:#090909;--card:#151515}
 *{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;
- font-family:Arial,sans-serif;
- color:#f5f5f5;
- background:radial-gradient(circle at top,#18202b,#080b10 65%);
-}
-header{
- padding:24px 15px;text-align:center;
- border-bottom:1px solid #d5a52b44;
-}
-.logo{font-size:38px;color:#f5c451;font-weight:900}
-header h1{font-size:25px;margin:8px 0}
-header p{color:#b9c0cc;margin:0}
-main{max-width:620px;margin:35px auto;padding:0 16px}
-.panel{
- background:#111720;border:1px solid #d5a52b55;
- border-radius:20px;padding:24px;
- box-shadow:0 15px 45px #0008;
-}
-h2{text-align:center;color:#f5c451;margin-top:0}
-label{display:block;margin:17px 0 8px;font-weight:bold}
-input,select{
- width:100%;padding:15px;border-radius:10px;
- border:1px solid #394352;background:#080d14;
- color:white;font-size:16px;
-}
-button{
- width:100%;padding:15px;margin-top:20px;
- border:0;border-radius:10px;
- background:linear-gradient(90deg,#e6ad27,#ffe08a);
- color:#141414;font-weight:900;font-size:16px;
- cursor:pointer;
-}
-button:disabled{opacity:.6}
-#result{
- margin-top:18px;padding:14px;border-radius:10px;
- background:#080d14;color:#dbe3ed;
- overflow-wrap:anywhere;line-height:1.6;
-}
-.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
-.feature{padding:13px;text-align:center;background:#ffffff08;border-radius:10px;color:#d5dbe5}
-.note{font-size:13px;color:#aeb7c5;line-height:1.7;margin-top:18px}
-footer{text-align:center;padding:25px;color:#87909e;font-size:13px}
-a{color:#f5c451}
+body{margin:0;background:radial-gradient(ellipse at top,#30240a,#090909 65%);color:#fff;font-family:Arial,sans-serif;min-height:100vh}
+header{text-align:center;padding:25px 12px;border-bottom:1px solid #493b16;background:#090909}
+.logo{font-size:clamp(25px,6vw,38px);font-weight:900;color:var(--gold);letter-spacing:2px}
+.tag{color:#aaa;font-size:12px;letter-spacing:3px;margin-top:8px}
+main{width:min(650px,92%);margin:30px auto}
+.card{background:linear-gradient(145deg,#191919,#0d0d0d);border:1px solid #55451a;border-radius:20px;padding:clamp(20px,5vw,32px);box-shadow:0 15px 45px #0009}
+h1{text-align:center;font-size:clamp(23px,5vw,32px)}
+h1 span{color:var(--gold)}
+.intro{text-align:center;color:#aaa;font-size:14px;line-height:1.7;margin-bottom:25px}
+label{display:block;color:#ffdf75;font-weight:bold;font-size:14px;margin:18px 0 9px}
+input,select{width:100%;padding:15px;background:#080808;border:1px solid #444;border-radius:11px;color:white;font-size:15px;outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+.hint{font-size:12px;color:#999;line-height:1.6;margin-top:8px}
+button,.download{display:flex;width:100%;justify-content:center;align-items:center;padding:15px;border:0;border-radius:11px;font-size:16px;font-weight:bold;text-decoration:none;cursor:pointer;margin-top:20px}
+button{background:linear-gradient(90deg,#eab92f,#ffe58b);color:#111}
+button:disabled{opacity:.6;cursor:wait}
+.download{background:#147d3c;color:#fff}
+.status{display:none;margin-top:20px;padding:16px;background:#080808;border:1px solid #444;border-radius:12px;line-height:1.7;overflow-wrap:anywhere}
+.status.show{display:block}
+.status.success{border-color:#168345}
+.status.error{border-color:#a42c2c}
+.status-title{font-weight:bold;color:var(--gold);margin-bottom:5px}
+.success .status-title{color:#4ade80}
+.error .status-title{color:#ff6666}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.feature{background:#101010;border:1px solid #302a1a;border-radius:12px;text-align:center;padding:15px 8px;color:#ddd;font-size:13px}
+.feature strong{display:block;font-size:22px;color:var(--gold);margin-bottom:6px}
+.notice{text-align:center;color:#999;font-size:12px;line-height:1.7;margin-top:22px}
+footer{text-align:center;color:#888;font-size:12px;padding:22px}
+footer span{color:var(--gold)}
 </style>
 </head>
-
 <body>
 <header>
- <div class="logo">🐍 COBRA</div>
- <h1>THE FAST COBRA DOWNLOADER</h1>
- <p>Fast • Simple • Mobile Friendly</p>
+  <div class="logo">🐍 THE FAST COBRA</div>
+  <div class="tag">FAST • SIMPLE • SMART</div>
 </header>
 
 <main>
- <section class="panel">
-  <h2>DOWNLOAD YOUR VIDEO</h2>
+<section class="card">
+  <h1>VIDEO <span>DOWNLOADER</span></h1>
+  <p class="intro">Paste a supported video link, choose your quality, and start processing.</p>
 
   <form id="downloadForm">
-   <label for="videoUrl">Video URL</label>
-   <input id="videoUrl" type="url"
-    placeholder="Paste your video link here..."
-    required>
+    <label for="videoUrl">🔗 Video URL</label>
+    <input id="videoUrl" type="url" placeholder="Paste video link here..." required>
+    <div class="hint">Use public videos that you own or have permission to download.</div>
 
-   <label for="quality">Video Quality</label>
-   <select id="quality">
-    <option value="best">Best Available</option>
-    <option value="1080">Full HD 1080p</option>
-    <option value="720">HD 720p</option>
-    <option value="480">480p</option>
-    <option value="360">360p</option>
-   </select>
+    <label for="quality">🎬 Video Quality</label>
+    <select id="quality">
+      <option value="best">Best Available Quality</option>
+      <option value="1080">1080p HD</option>
+      <option value="720">720p HD</option>
+      <option value="480">480p</option>
+      <option value="360">360p</option>
+    </select>
 
-   <button id="downloadBtn" type="submit">GET VIDEO</button>
+    <button id="downloadBtn" type="submit">⬇ GET VIDEO</button>
   </form>
 
-  <div id="result" role="status" aria-live="polite">
-   Paste a video link to begin.
+  <div id="statusBox" class="status" role="status" aria-live="polite">
+    <div id="statusTitle" class="status-title"></div>
+    <div id="statusMessage"></div>
+    <a id="fileLink" class="download" href="#" hidden>⬇ DOWNLOAD VIDEO</a>
   </div>
 
   <div class="features">
-   <div class="feature">⚡ Simple & Fast</div>
-   <div class="feature">📱 Mobile Friendly</div>
-   <div class="feature">🎬 Quality Options</div>
-   <div class="feature">🔗 API Connected</div>
+    <div class="feature"><strong>⚡</strong>Simple Interface</div>
+    <div class="feature"><strong>📱</strong>Mobile Friendly</div>
+    <div class="feature"><strong>🎞️</strong>Quality Options</div>
+    <div class="feature"><strong>🔗</strong>Video Link Support</div>
   </div>
 
-  <p class="note">
-   The downloader API is connected for testing. Actual video extraction
-   is not yet enabled. Only download videos you own or have permission
-   to save, and follow each platform's rules.
-  </p>
- </section>
+  <p class="notice">Processing depends on server availability and platform support. Some links may not work. Respect copyright and platform rules.</p>
+</section>
 </main>
 
-<footer>
- © 2026 The Fast Cobra Downloader
-</footer>
+<footer>© 2026 <span>THE FAST COBRA</span> — All Rights Reserved</footer>
 
 <script>
-const API_BASE = "https://the-fast-cobra-api.muhajirhackers.workers.dev";
+const API_BASE = "https://fastcobra2026.pythonanywhere.com";
 
 const form = document.getElementById("downloadForm");
-const input = document.getElementById("videoUrl");
-const quality = document.getElementById("quality");
-const result = document.getElementById("result");
+const urlInput = document.getElementById("videoUrl");
+const qualityInput = document.getElementById("quality");
 const button = document.getElementById("downloadBtn");
+const box = document.getElementById("statusBox");
+const title = document.getElementById("statusTitle");
+const message = document.getElementById("statusMessage");
+const fileLink = document.getElementById("fileLink");
 
-form.addEventListener("submit", async function(event) {
+let requestId = 0;
+
+function showStatus(t, m, type = "") {
+  box.className = "status show" + (type ? " " + type : "");
+  title.textContent = t;
+  message.textContent = m;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getJson(response) {
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.message || data.error || "Server error: " + response.status);
+  }
+  return data;
+}
+
+form.addEventListener("submit", async event => {
   event.preventDefault();
+  const id = ++requestId;
+  const url = urlInput.value.trim();
+  const quality = qualityInput.value;
 
-  const videoUrl = input.value.trim();
-
-  if (!videoUrl) {
-    result.textContent = "Please paste a video URL first.";
-    return;
-  }
-
-  let parsedUrl;
   try {
-    parsedUrl = new URL(videoUrl);
-  } catch {
-    result.textContent = "Please enter a valid URL.";
+    const parsed = new URL(url);
+    if (!["http:", "https:"].includes(parsed.protocol)) {
+      throw new Error("Please enter a valid HTTP or HTTPS link.");
+    }
+  } catch (e) {
+    showStatus("Invalid URL", e.message || "Please enter a valid video link.", "error");
     return;
   }
 
-  if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-    result.textContent = "Please use a valid HTTP or HTTPS link.";
-    return;
-  }
-
+  fileLink.hidden = true;
+  fileLink.removeAttribute("href");
   button.disabled = true;
-  button.textContent = "CHECKING API...";
-  result.textContent = "Connecting to The Fast Cobra API...";
+  button.textContent = "⏳ PROCESSING...";
+  showStatus("Connecting...", "Contacting the video server. Please wait.");
 
   try {
-    const response = await fetch(API_BASE + "/api/download", {
-      method: "GET"
+    const startResponse = await fetch(API_BASE + "/api/download", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({url, quality})
     });
 
-    const data = await response.json();
+    const job = await getJson(startResponse);
+    if (!job.job_id) throw new Error(job.message || "Server did not return a job ID.");
 
-    if (response.status === 501) {
-      result.textContent =
-        "API is online, but video processing is not connected yet. " +
-        "Selected quality: " + quality.value +
-        ". No video has been downloaded.";
-    } else if (response.ok && data.success && data.downloadUrl) {
-      const link = document.createElement("a");
-      link.href = data.downloadUrl;
-      link.textContent = "Download video";
-      link.rel = "noopener noreferrer";
-      result.replaceChildren("Your download is ready: ", link);
-    } else {
-      result.textContent = data.message || data.error ||
-        "The API responded, but no download is available yet.";
+    let completed = false;
+
+    for (let i = 0; i < 90; i++) {
+      if (id !== requestId) return;
+      await sleep(2000);
+
+      const response = await fetch(
+        API_BASE + "/api/status/" + encodeURIComponent(job.job_id),
+        {cache: "no-store"}
+      );
+      const result = await getJson(response);
+
+      if (result.status === "completed") {
+        if (!result.download_url) throw new Error("The server did not provide a download link.");
+
+        fileLink.href = new URL(result.download_url, API_BASE).href;
+        fileLink.download = result.filename || "video";
+        fileLink.hidden = false;
+
+        showStatus(
+          "Download Ready",
+          "Video: " + (result.title || result.filename || "Your video") + ". Tap the green button below.",
+          "success"
+        );
+        completed = true;
+        break;
+      }
+
+      if (result.status === "failed") {
+        throw new Error(result.message || "The server could not process this video.");
+      }
+
+      showStatus("Processing...", "Checking progress (" + (i + 1) + "/90). Please wait.");
     }
-  } catch (error) {
-    result.textContent =
-      "Could not connect to the API. Please check your internet connection and try again.";
+
+    if (!completed && id === requestId) {
+      showStatus("Still Processing", "The server has not finished yet. Please try again later.", "error");
+    }
+
+  } catch (e) {
+    if (id !== requestId) return;
+    const msg = e.message || "An unexpected error occurred.";
+
+    if (msg.toLowerCase().includes("failed to fetch")) {
+      showStatus(
+        "Connection Error",
+        "The API may be unavailable or CORS may not be enabled on PythonAnywhere. The backend needs to be checked.",
+        "error"
+      );
+    } else {
+      showStatus("Download Failed", msg, "error");
+    }
   } finally {
-    button.disabled = false;
-    button.textContent = "GET VIDEO";
+    if (id === requestId) {
+      button.disabled = false;
+      button.textContent = "⬇ GET VIDEO";
+    }
   }
 });
 </script>
