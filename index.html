@@ -3,61 +3,178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101010">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b10">
+<meta name="description" content="The Fast Cobra Downloader">
 <title>The Fast Cobra Downloader</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101010;color:#fff;font-family:Arial,sans-serif}
-header{text-align:center;padding:25px 15px;background:#181818;border-bottom:2px solid #dba928}
-.logo{font-size:32px;font-weight:900;color:#ffc83d}
-.subtitle{color:#bbb;margin-top:7px}
-main{max-width:500px;margin:30px auto;padding:20px}
-.card{background:#1c1c1c;padding:22px;border:1px solid #40351c;border-radius:20px}
-h1{text-align:center;font-size:25px}
-p{text-align:center;color:#ccc;line-height:1.6}
-input,select,button{width:100%;padding:15px;margin-top:13px;border-radius:10px;font-size:16px}
-input,select{background:#101010;color:white;border:1px solid #555}
-button{background:#e6b52d;color:#111;font-weight:bold;border:0;cursor:pointer}
-.note{font-size:13px;color:#aaa}
-footer{text-align:center;padding:25px;color:#888;font-size:13px}
+body{
+ margin:0;min-height:100vh;
+ font-family:Arial,sans-serif;
+ color:#f5f5f5;
+ background:radial-gradient(circle at top,#18202b,#080b10 65%);
+}
+header{
+ padding:24px 15px;text-align:center;
+ border-bottom:1px solid #d5a52b44;
+}
+.logo{font-size:38px;color:#f5c451;font-weight:900}
+header h1{font-size:25px;margin:8px 0}
+header p{color:#b9c0cc;margin:0}
+main{max-width:620px;margin:35px auto;padding:0 16px}
+.panel{
+ background:#111720;border:1px solid #d5a52b55;
+ border-radius:20px;padding:24px;
+ box-shadow:0 15px 45px #0008;
+}
+h2{text-align:center;color:#f5c451;margin-top:0}
+label{display:block;margin:17px 0 8px;font-weight:bold}
+input,select{
+ width:100%;padding:15px;border-radius:10px;
+ border:1px solid #394352;background:#080d14;
+ color:white;font-size:16px;
+}
+button{
+ width:100%;padding:15px;margin-top:20px;
+ border:0;border-radius:10px;
+ background:linear-gradient(90deg,#e6ad27,#ffe08a);
+ color:#141414;font-weight:900;font-size:16px;
+ cursor:pointer;
+}
+button:disabled{opacity:.6}
+#result{
+ margin-top:18px;padding:14px;border-radius:10px;
+ background:#080d14;color:#dbe3ed;
+ overflow-wrap:anywhere;line-height:1.6;
+}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.feature{padding:13px;text-align:center;background:#ffffff08;border-radius:10px;color:#d5dbe5}
+.note{font-size:13px;color:#aeb7c5;line-height:1.7;margin-top:18px}
+footer{text-align:center;padding:25px;color:#87909e;font-size:13px}
+a{color:#f5c451}
 </style>
 </head>
+
 <body>
 <header>
-<div class="logo">🐍 THE FAST COBRA</div>
-<div class="subtitle">VIDEO DOWNLOADER</div>
+ <div class="logo">🐍 COBRA</div>
+ <h1>THE FAST COBRA DOWNLOADER</h1>
+ <p>Fast • Simple • Mobile Friendly</p>
 </header>
+
 <main>
-<div class="card">
-<h1>Download Your Media</h1>
-<p>Paste a supported video link to get started.</p>
-<form id="downloadForm">
-<input id="videoUrl" type="url" placeholder="Paste video URL here..." required>
-<select id="quality">
-<option value="best">Best available quality</option>
-<option value="1080">1080p Full HD</option>
-<option value="720">720p HD</option>
-<option value="480">480p</option>
-<option value="360">360p</option>
-</select>
-<button type="submit">GET VIDEO</button>
-</form>
-<p id="message" class="note">Download options require a working media backend.</p>
-</div>
+ <section class="panel">
+  <h2>DOWNLOAD YOUR VIDEO</h2>
+
+  <form id="downloadForm">
+   <label for="videoUrl">Video URL</label>
+   <input id="videoUrl" type="url"
+    placeholder="Paste your video link here..."
+    required>
+
+   <label for="quality">Video Quality</label>
+   <select id="quality">
+    <option value="best">Best Available</option>
+    <option value="1080">Full HD 1080p</option>
+    <option value="720">HD 720p</option>
+    <option value="480">480p</option>
+    <option value="360">360p</option>
+   </select>
+
+   <button id="downloadBtn" type="submit">GET VIDEO</button>
+  </form>
+
+  <div id="result" role="status" aria-live="polite">
+   Paste a video link to begin.
+  </div>
+
+  <div class="features">
+   <div class="feature">⚡ Simple & Fast</div>
+   <div class="feature">📱 Mobile Friendly</div>
+   <div class="feature">🎬 Quality Options</div>
+   <div class="feature">🔗 API Connected</div>
+  </div>
+
+  <p class="note">
+   The downloader API is connected for testing. Actual video extraction
+   is not yet enabled. Only download videos you own or have permission
+   to save, and follow each platform's rules.
+  </p>
+ </section>
 </main>
-<footer>© 2026 The Fast Cobra Downloader</footer>
+
+<footer>
+ © 2026 The Fast Cobra Downloader
+</footer>
+
 <script>
-document.getElementById("downloadForm").addEventListener("submit",function(e){
-e.preventDefault();
-const url=document.getElementById("videoUrl").value.trim();
-if(!/^https?:\/\//i.test(url)){
-document.getElementById("message").textContent="Please enter a valid video link.";
-return;
-}
-document.getElementById("message").textContent="Home page ready. Actual downloading will be enabled after the backend is connected.";
+const API_BASE = "https://the-fast-cobra-api.muhajirhackers.workers.dev";
+
+const form = document.getElementById("downloadForm");
+const input = document.getElementById("videoUrl");
+const quality = document.getElementById("quality");
+const result = document.getElementById("result");
+const button = document.getElementById("downloadBtn");
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+
+  const videoUrl = input.value.trim();
+
+  if (!videoUrl) {
+    result.textContent = "Please paste a video URL first.";
+    return;
+  }
+
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(videoUrl);
+  } catch {
+    result.textContent = "Please enter a valid URL.";
+    return;
+  }
+
+  if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+    result.textContent = "Please use a valid HTTP or HTTPS link.";
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "CHECKING API...";
+  result.textContent = "Connecting to The Fast Cobra API...";
+
+  try {
+    const response = await fetch(API_BASE + "/api/download", {
+      method: "GET"
+    });
+
+    const data = await response.json();
+
+    if (response.status === 501) {
+      result.textContent =
+        "API is online, but video processing is not connected yet. " +
+        "Selected quality: " + quality.value +
+        ". No video has been downloaded.";
+    } else if (response.ok && data.success && data.downloadUrl) {
+      const link = document.createElement("a");
+      link.href = data.downloadUrl;
+      link.textContent = "Download video";
+      link.rel = "noopener noreferrer";
+      result.replaceChildren("Your download is ready: ", link);
+    } else {
+      result.textContent = data.message || data.error ||
+        "The API responded, but no download is available yet.";
+    }
+  } catch (error) {
+    result.textContent =
+      "Could not connect to the API. Please check your internet connection and try again.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "GET VIDEO";
+  }
 });
 </script>
 </body>
 </html>
-
