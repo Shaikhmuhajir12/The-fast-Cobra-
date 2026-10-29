@@ -3,55 +3,92 @@
 <html lang="ur" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07120e">
+<meta name="description" content="The Fast Cobra Downloader">
 <title>The Fast Cobra Downloader</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07120e;color:#f5f5f5;font-family:Arial,sans-serif;text-align:center}
-header{padding:25px 12px;background:#0d241a;border-bottom:2px solid #35e08b}
-.logo{font-size:34px;font-weight:900;color:#35e08b}
+body{
+ margin:0;background:#07120e;color:#fff;
+ font-family:Arial,sans-serif;text-align:center;
+ min-height:100vh
+}
+header{
+ padding:25px 12px;background:#0d241a;
+ border-bottom:2px solid #35e08b
+}
+.logo{font-size:32px;font-weight:900;color:#35e08b}
 header p{color:#c8d7ce}
-main{max-width:650px;margin:35px auto;padding:22px}
-.card{background:#10231b;border:1px solid #24553e;border-radius:20px;padding:24px;box-shadow:0 8px 30px #0008}
+main{max-width:650px;margin:35px auto;padding:20px}
+.card{
+ background:#10231b;border:1px solid #24553e;
+ border-radius:20px;padding:24px;
+ box-shadow:0 8px 30px #0008
+}
 h1{font-size:27px;color:#35e08b}
-input{width:100%;padding:16px;border-radius:10px;border:1px solid #426b55;background:#07120e;color:white;font-size:16px;direction:ltr}
-button{width:100%;padding:15px;margin-top:14px;border:0;border-radius:10px;background:#35e08b;color:#062013;font-size:17px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.55}
-#status{margin:20px 0;line-height:1.8;overflow-wrap:anywhere}
-.small{color:#b8c9bf;font-size:13px;line-height:1.8}
+input{
+ width:100%;padding:16px;border-radius:10px;
+ border:1px solid #426b55;background:#07120e;
+ color:white;font-size:16px;direction:ltr
+}
+button{
+ width:100%;padding:15px;margin-top:14px;
+ border:0;border-radius:10px;background:#35e08b;
+ color:#062013;font-size:17px;font-weight:bold;
+ cursor:pointer
+}
+button:disabled{opacity:.55;cursor:wait}
+#status{margin:20px 0;line-height:1.9;overflow-wrap:anywhere}
+.small{color:#b8c9bf;font-size:13px;line-height:1.9}
 footer{padding:25px;color:#94aa9c}
-a{color:#35e08b}
+.download-link{
+ display:inline-block;padding:14px 20px;margin-top:15px;
+ background:#35e08b;color:#062013;border-radius:10px;
+ text-decoration:none;font-weight:bold
+}
 </style>
 </head>
+
 <body>
 <header>
-<div class="logo">🐍 FAST COBRA</div>
-<p>Fast • Simple • Easy</p>
+ <div class="logo">🐍 FAST COBRA</div>
+ <p>Fast • Simple • Easy</p>
 </header>
 
 <main>
-<div class="card">
-<h1>ویڈیو ڈاؤنلوڈر</h1>
-<p>ویڈیو کا لنک نیچے پیسٹ کریں</p>
+ <div class="card">
+  <h1>ویڈیو ڈاؤنلوڈر</h1>
+  <p>ویڈیو کا لنک نیچے پیسٹ کریں</p>
 
-<form id="downloadForm">
-<input id="videoUrl" type="url" placeholder="https://example.com/video" required>
-<button id="downloadBtn" type="submit">⬇️ ویڈیو ڈاؤنلوڈ کریں</button>
-</form>
+  <form id="downloadForm">
+   <input id="videoUrl" type="url"
+    placeholder="https://example.com/video"
+    autocomplete="url" required>
+   <button id="downloadBtn" type="submit">
+    ⬇️ ویڈیو ڈاؤنلوڈ کریں
+   </button>
+  </form>
 
-<div id="status" role="status">ویڈیو کا لنک درج کریں۔</div>
-<p class="small">
-صرف ایسی ویڈیوز ڈاؤنلوڈ کریں جنہیں ڈاؤنلوڈ کرنے کی آپ کو اجازت ہو۔
-ہر ویب سائٹ کا لنک لازماً کام نہیں کرے گا۔
-</p>
-</div>
+  <div id="status" role="status" aria-live="polite">
+   ویڈیو کا لنک درج کریں۔
+  </div>
+
+  <p class="small">
+   صرف ایسی ویڈیوز ڈاؤنلوڈ کریں جنہیں ڈاؤنلوڈ کرنے کی آپ کو اجازت ہو۔
+   نجی ویڈیوز یا لاگ اِن کے پابند لنکس کام نہ بھی کریں۔
+  </p>
+ </div>
 </main>
 
 <footer>© 2026 The Fast Cobra Downloader</footer>
 
 <script>
-const API_BASE = "http://usa.cloud.enzonic.com:26511";
+"use strict";
+
+const API_BASE = "https://fastcobra.enzonic.dev";
+
 const form = document.getElementById("downloadForm");
 const input = document.getElementById("videoUrl");
 const button = document.getElementById("downloadBtn");
@@ -59,77 +96,86 @@ const statusBox = document.getElementById("status");
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+function showMessage(message) {
+ statusBox.textContent = message;
+}
+
 form.addEventListener("submit", async event => {
-  event.preventDefault();
+ event.preventDefault();
 
-  const url = input.value.trim();
-  if (!/^https?:\/\//i.test(url)) {
-    statusBox.textContent = "براہ کرم درست ویڈیو لنک درج کریں۔";
+ const url = input.value.trim();
+
+ if (!/^https?:\/\//i.test(url)) {
+  showMessage("براہ کرم درست ویڈیو لنک درج کریں۔");
+  return;
+ }
+
+ button.disabled = true;
+ showMessage("سرور سے رابطہ ہو رہا ہے…");
+
+ try {
+  const response = await fetch(API_BASE + "/api/download", {
+   method: "POST",
+   headers: {"Content-Type": "application/json"},
+   body: JSON.stringify({url})
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok || !data.job_id) {
+   throw new Error(data.error || "سرور درخواست قبول نہیں کر سکا۔");
+  }
+
+  showMessage("ویڈیو تیار ہو رہی ہے… براہ کرم انتظار کریں۔");
+
+  for (let i = 0; i < 90; i++) {
+   await sleep(2000);
+
+   const check = await fetch(
+    API_BASE + "/api/status/" + encodeURIComponent(data.job_id)
+   );
+
+   const result = await check.json().catch(() => ({}));
+
+   if (!check.ok) {
+    throw new Error(result.error || "ویڈیو کی حالت معلوم نہیں ہو سکی۔");
+   }
+
+   if (result.status === "finished") {
+    const link = document.createElement("a");
+    link.href = API_BASE + "/api/file/" + encodeURIComponent(data.job_id);
+    link.className = "download-link";
+    link.textContent = "⬇️ ویڈیو ڈاؤنلوڈ کریں";
+
+    statusBox.replaceChildren();
+    statusBox.append(document.createTextNode("ویڈیو تیار ہے!"));
+    statusBox.append(document.createElement("br"));
+    statusBox.append(link);
     return;
+   }
+
+   if (result.status === "error") {
+    throw new Error(result.error || "ویڈیو ڈاؤنلوڈ نہیں ہو سکی۔");
+   }
+
+   showMessage("ویڈیو تیار ہو رہی ہے… " + (i + 1) + "/90");
   }
 
-  button.disabled = true;
-  statusBox.textContent = "سرور سے رابطہ ہو رہا ہے…";
+  throw new Error("وقت ختم ہو گیا۔ دوبارہ کوشش کریں۔");
 
-  try {
-    const response = await fetch(API_BASE + "/api/download", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({url})
-    });
+ } catch (error) {
+  console.error("Fast Cobra error:", error);
 
-    const data = await response.json();
-
-    if (!response.ok || !data.job_id) {
-      throw new Error(data.error || "سرور نے درخواست قبول نہیں کی۔");
-    }
-
-    statusBox.textContent = "ویڈیو تیار کی جا رہی ہے… براہ کرم انتظار کریں۔";
-
-    for (let i = 0; i < 90; i++) {
-      await sleep(2000);
-
-      const check = await fetch(
-        API_BASE + "/api/status/" + encodeURIComponent(data.job_id)
-      );
-      const result = await check.json();
-
-      if (result.status === "finished") {
-        const link = document.createElement("a");
-        link.href = API_BASE + "/api/file/" + encodeURIComponent(data.job_id);
-        link.textContent = "⬇️ ویڈیو ڈاؤنلوڈ کریں";
-        link.style.display = "inline-block";
-        link.style.padding = "15px";
-        link.style.marginTop = "12px";
-        link.style.background = "#35e08b";
-        link.style.color = "#062013";
-        link.style.borderRadius = "10px";
-        link.style.fontWeight = "bold";
-        link.style.textDecoration = "none";
-
-        statusBox.replaceChildren();
-        statusBox.append(document.createTextNode("ویڈیو تیار ہے! "));
-        statusBox.append(document.createElement("br"));
-        statusBox.append(link);
-        return;
-      }
-
-      if (result.status === "error") {
-        throw new Error(result.error || "ویڈیو ڈاؤنلوڈ نہیں ہو سکی۔");
-      }
-
-      statusBox.textContent = "ویڈیو تیار ہو رہی ہے… " + (i + 1) + "/90";
-    }
-
-    throw new Error("وقت ختم ہوگیا۔ دوبارہ کوشش کریں۔");
-
-  } catch (error) {
-    statusBox.textContent =
-      "مسئلہ: " + error.message +
-      " — ممکن ہے سرور، CORS یا ویب سائٹ کی پابندی کی وجہ سے درخواست ناکام ہوئی ہو۔";
-  } finally {
-    button.disabled = false;
+  if (error instanceof TypeError) {
+   showMessage(
+    "سرور سے رابطہ نہیں ہو سکا۔ CORS، HTTPS یا سرور کی حالت چیک کرنا ضروری ہے۔"
+   );
+  } else {
+   showMessage("مسئلہ: " + error.message);
   }
+ } finally {
+  button.disabled = false;
+ }
 });
 </script>
 </body>
